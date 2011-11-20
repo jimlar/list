@@ -20,3 +20,6 @@
 
 (defn list-by-id [id]
   (collection/find-by-id "lists" id))
+
+(defn add-item [id, name]
+  (collection/update "lists" {:_id id} {"$push" {:items {:name name}}} :multi true))
