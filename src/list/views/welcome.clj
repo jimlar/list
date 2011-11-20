@@ -16,7 +16,8 @@
         (for [item (list-items lst)]
           [:li.ui-state-default {:id (item-id item)} (item-name item)])]
       (form-to [:post (str "/lists/" id)]
-        (text-field :name)))))
+        (text-field :name)
+        (submit-button "Lägg till")))))
 
 (defpage new-item [:post "/lists/:id"] {id :id, name :name}
   (do
