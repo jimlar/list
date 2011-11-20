@@ -7,5 +7,6 @@
 (defpage "/" []
          (common/layout
            [:ul.sortable
-            [:li.ui-state-default "Hej"]
-            [:li.ui-state-default "Hopp"]]))
+            (for [i (range 10)]
+              [:li.ui-state-default {:id i}(str "Hej " i)])]))
+ 
