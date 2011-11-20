@@ -24,11 +24,21 @@
     (add-item (to-objectid id) name)
     (response/redirect (url-for listview :id id))))
 
-(defpage "/" []
+(defpage new-list [:post "/"] {name :name, description :description}
+  (do
+    (add-list name description)
+    (response/redirect "/")))
+
+(defpage index "/" []
   (common/layout
     [:h1 "Listor"]
     [:div#lists
       (for [l (all-lists)]
         (list
           [:h3 [:a {:href (url-for listview :id (list-id l))} (list-name l)]]
-          [:div (list-description l)]))]))
+          [:div (list-description l)]))]
+    (form-to [:post (url-for new-list)]
+      (text-field :name)
+      (text-area :description)
+      (submit-button "Ny lista"))))
+

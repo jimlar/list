@@ -1,6 +1,7 @@
 (ns list.server
   (:require [noir.server :as server]))
 
+(server/load-views "src/list/models/")
 (server/load-views "src/list/views/")
 
 (defn -main [& m]

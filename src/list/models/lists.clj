@@ -23,3 +23,6 @@
 
 (defn add-item [id, name]
   (collection/update "lists" {:_id id} {"$push" {:items {:name name}}} :multi true))
+
+(defn add-list [name, description]
+  (collection/insert "lists" {:name name, :description description, :items []}))
