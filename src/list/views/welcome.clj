@@ -1,10 +1,11 @@
 (ns list.views.welcome
-  (:require [list.views.common :as common]
-            [noir.content.pages :as pages])
+  (:require [list.views.common :as common])
   (:use noir.core
         hiccup.core
         hiccup.page-helpers))
 
-(defpage "/welcome" []
+(defpage "/" []
          (common/layout
-           [:p "Welcome to list"]))
+           [:ul.sortable
+            [:li.ui-state-default "Hej"]
+            [:li.ui-state-default "Hopp"]]))
