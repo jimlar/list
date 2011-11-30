@@ -38,7 +38,13 @@
           [:h3 [:a {:href (url-for listview :id (list-id l))} (list-name l)]]
           [:div (list-description l)]))]
     (form-to [:post (url-for new-list)]
-      (text-field :name)
-      (text-area :description)
-      (submit-button "Ny lista"))))
+      [:fieldset
+        [:legend "Ny lista"]
+        [:dl
+          [:dt "Namn"]
+          [:dd (text-field :name)]
+          [:dt "Beskrivning"]
+          [:dd (text-area :description)]
+          [:dt]
+          [:dd (submit-button "Ny")]]])))
 
