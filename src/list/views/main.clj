@@ -1,4 +1,4 @@
-(ns list.views.welcome
+(ns list.views.main
   (:require [list.views.common :as common]
             [noir.response :as response])
   (:use noir.core
