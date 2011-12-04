@@ -24,7 +24,7 @@
             [:dt]
             [:dd (submit-button "Lägg till")]]]))))
 
-            (defpage new-item [:post "/lists/:id"] {id :id, name :name}
+(defpage new-item [:post "/lists/:id"] {id :id, name :name}
   (do
     (add-item (to-objectid id) name)
     (response/redirect (url-for listview :id id))))
