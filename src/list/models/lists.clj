@@ -29,11 +29,7 @@
     (collection/update "lists" {:_id id} {"$push" {:items {:id (ObjectId.) :name name :weight (inc (count (list-items list)))}}})))
 
 (defn reorder-items [id, item-ids]
-  (let [list (list-by-id id)]
-    (println "Items: " item-ids)
-    (dotimes [index (count item-ids)]
-      (println "updating index " index " item " (item-ids index))
-      (collection/update "lists" {:_id id "items.id" (item-ids index)} {"$set" {"items.$.weight" (inc index)}}))))
+  (dotimes [index (count item-ids)]
+    (println "updating index " index " item " (item-ids index))
+    (collection/update "lists" {:_id id "items.id" (item-ids index)} {"$set" {"items.$.weight" (inc index)}})))
 
-
-;t.update( {'comments.by':'joe'}, {$inc:{'comments.$.votes':1}}, false, true )
