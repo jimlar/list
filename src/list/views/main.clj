@@ -13,17 +13,12 @@
   (let [lst (list-by-id (to-objectid id))]
     (common/layout
       [:h1 (list-name lst)]
+      (form-to [:post (str "/lists/" id "/")]
+        (text-field :name)
+        (submit-button "Lägg till"))
       [:ol.sortable
         (for [item (list-items lst)]
-          [:li.ui-state-default {:id (item-id item)} (item-name item)])]
-      (form-to [:post (str "/lists/" id "/")]
-        [:fieldset
-          [:legend "Ny"]
-          [:dl
-            [:dt "Namn"]
-            [:dd (text-field :name)]
-            [:dt]
-            [:dd (submit-button "Lägg till")]]]))))
+          [:li.ui-state-default {:id (item-id item)} (item-name item)])])))
 
 (defpage new-item [:post "/lists/:id/"] {id :id, name :name}
   (do

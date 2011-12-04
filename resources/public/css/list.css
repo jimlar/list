@@ -28,6 +28,10 @@ fieldset {
     margin-top: 2em;
 }
 
+form {
+    margin-bottom: 1em;
+}
+
 body {
     padding: 1em;
 }
