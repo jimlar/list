@@ -10,7 +10,7 @@
 (defn list-id [l] (get l "_id"))
 (defn list-name [l] (get l "name"))
 (defn list-description [l] (get l "description"))
-(defn list-items [l] (get l "items"))
+(defn list-items [l] (sort-by (fn [x] (get x "weight" 0)) (get l "items")))
 
 (defn item-id [i] (get i "id"))
 (defn item-name [i] (get i "name"))
