@@ -32,7 +32,7 @@
 
 (defpage items [:post "/lists/:id/items"] {id :id, order :order}
   (do
-    (reorder-items id (map to-objectid (string/re-split #"," order)))
+    (reorder-items (to-objectid id) (vec (map to-objectid (string/re-split #"," order))))
     "OK"))
 
 (defpage new-list [:post "/"] {name :name, description :description}
