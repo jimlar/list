@@ -16,10 +16,15 @@
         (for [item (list-items lst)]
           [:li.ui-state-default {:id (item-id item)} (item-name item)])]
       (form-to [:post (str "/lists/" id)]
-        (text-field :name)
-        (submit-button "Lägg till")))))
+        [:fieldset
+          [:legend "Ny"]
+          [:dl
+            [:dt "Namn"]
+            [:dd (text-field :name)]
+            [:dt]
+            [:dd (submit-button "Lägg till")]]]))))
 
-(defpage new-item [:post "/lists/:id"] {id :id, name :name}
+            (defpage new-item [:post "/lists/:id"] {id :id, name :name}
   (do
     (add-item (to-objectid id) name)
     (response/redirect (url-for listview :id id))))
