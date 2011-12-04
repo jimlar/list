@@ -1,5 +1,6 @@
 (ns list.views.main
   (:require [list.views.common :as common]
+            [clojure.contrib.str-utils :as string]
             [noir.response :as response])
   (:use noir.core
         hiccup.core
@@ -8,14 +9,14 @@
         list.models.lists))
 
 
-(defpage listview "/lists/:id" {id :id}
+(defpage listview "/lists/:id/" {id :id}
   (let [lst (list-by-id (to-objectid id))]
     (common/layout
       [:h1 (list-name lst)]
-      [:ul.sortable
+      [:ol.sortable
         (for [item (list-items lst)]
           [:li.ui-state-default {:id (item-id item)} (item-name item)])]
-      (form-to [:post (str "/lists/" id)]
+      (form-to [:post (str "/lists/" id "/")]
         [:fieldset
           [:legend "Ny"]
           [:dl
@@ -24,10 +25,15 @@
             [:dt]
             [:dd (submit-button "Lägg till")]]]))))
 
-(defpage new-item [:post "/lists/:id"] {id :id, name :name}
+(defpage new-item [:post "/lists/:id/"] {id :id, name :name}
   (do
     (add-item (to-objectid id) name)
     (response/redirect (url-for listview :id id))))
+
+(defpage items [:post "/lists/:id/items"] {id :id, order :order}
+  (do
+    (reorder-items id (map to-objectid (string/re-split #"," order)))
+    "OK"))
 
 (defpage new-list [:post "/"] {name :name, description :description}
   (do

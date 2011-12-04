@@ -21,8 +21,13 @@
 (defn list-by-id [id]
   (collection/find-by-id "lists" id))
 
-(defn add-item [id, name]
-  (collection/update "lists" {:_id id} {"$push" {:items {:name name}}}))
-
 (defn add-list [name, description]
   (collection/insert "lists" {:name name, :description description, :items []}))
+
+(defn add-item [id, name]
+  (collection/update "lists" {:_id id} {"$push" {:items {:id (ObjectId.) :name name}}}))
+
+(defn reorder-items [id, item-ids]
+  (do
+    (println "Items: " item-ids)))
+
