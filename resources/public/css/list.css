@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     width: 60%;
-
 }
 
 .sortable li {
@@ -13,9 +12,12 @@
     height: 1.5em;
 }
 
-html>body .sortable li {
-    height: 1.5em;
-    line-height: 1.2em;
+.sortable li form.delete {
+    float: right;
+    color: red;
+}
+.sortable li form.delete button {
+    color: red;
 }
 
 .ui-state-highlight {
@@ -28,7 +30,7 @@ fieldset {
     margin-top: 2em;
 }
 
-form {
+form.add-item {
     margin-bottom: 1em;
 }
 

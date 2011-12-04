@@ -10,7 +10,7 @@
 (defn list-id [l] (get l "_id"))
 (defn list-name [l] (get l "name"))
 (defn list-description [l] (get l "description"))
-(defn list-items [l] (sort-by (fn [x] (get x "weight" 0)) (get l "items")))
+(defn list-items [l] (sort-by (fn [x] (get x "weight" 0)) (filter #(not (get % "deleted" false)) (get l "items"))))
 
 (defn item-id [i] (get i "id"))
 (defn item-name [i] (get i "name"))
@@ -27,6 +27,9 @@
 (defn add-item [id, name]
   (let [list (list-by-id id)]
     (collection/update "lists" {:_id id} {"$push" {:items {:id (ObjectId.) :name name :weight (inc (count (list-items list)))}}})))
+
+(defn remove-item [listid, itemid]
+  (collection/update "lists" {:_id listid "items.id" itemid} {"$set" {"items.$.deleted" true}}))
 
 (defn reorder-items [id, item-ids]
   (dotimes [index (count item-ids)]

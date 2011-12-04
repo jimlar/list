@@ -9,23 +9,31 @@
         list.models.lists))
 
 
-(defpage listview "/lists/:id/" {id :id}
+(defpage listdetails "/lists/:id/" {id :id}
   (let [lst (list-by-id (to-objectid id))]
     (common/layout
       [:h1 (list-name lst)]
-      (form-to [:post (str "/lists/" id "/")]
+      [:form.add-item {:method :post :action (str "/lists/" id "/")}
         (text-field :name)
-        (submit-button "Lägg till"))
+        (submit-button "Lägg till")]
       [:ol.sortable
         (for [item (list-items lst)]
-          [:li.ui-state-default {:id (item-id item)} (item-name item)])])))
+          [:li.ui-state-default {:id (item-id item)}
+            (item-name item)
+            [:form.delete {:method :post :action (str "/lists/" id "/" (item-id item))}
+              [:button {:type "submit"} "&#x2716;"]]])])))
 
 (defpage new-item [:post "/lists/:id/"] {id :id, name :name}
   (do
     (add-item (to-objectid id) name)
-    (response/redirect (url-for listview :id id))))
+    (response/redirect (url-for listdetails :id id))))
 
-(defpage items [:post "/lists/:id/items"] {id :id, order :order}
+(defpage delete-item [:post "/lists/:listid/:itemid"] {listid :listid, itemid :itemid}
+  (do
+    (remove-item (to-objectid listid) (to-objectid itemid))
+    (response/redirect (url-for listdetails :id listid))))
+
+(defpage items [:post "/lists/:id/items/order"] {id :id, order :order}
   (do
     (reorder-items (to-objectid id) (vec (map to-objectid (string/re-split #"," order))))
     "OK"))
@@ -41,7 +49,7 @@
     [:div#lists
       (for [l (all-lists)]
         (list
-          [:h3 [:a {:href (url-for listview :id (list-id l))} (list-name l)]]
+          [:h3 [:a {:href (url-for listdetails :id (list-id l))} (list-name l)]]
           [:div (list-description l)]))]
     (form-to [:post (url-for new-list)]
       [:fieldset

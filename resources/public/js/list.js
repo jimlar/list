@@ -13,7 +13,7 @@ LIST.ajax = (function(){
     },
 
     saveSortOrder: function(order) {
-        $.post("items", {"order": "" + order}, function(data, textstatus) {
+        $.post("items/order", {"order": "" + order}, function(data, textstatus) {
             signalSuccess();
         });
     }
@@ -29,10 +29,7 @@ $(function() {
         placeholder: "ui-state-highlight",
         update: function(event, ui) {
             var order = $(this).sortable("toArray");
-            console.log("Sorting changed" + order);
-
             LIST.ajax.saveSortOrder(order);
-
         }
     });
     $( ".sortable" ).disableSelection();
