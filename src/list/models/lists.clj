@@ -30,6 +30,5 @@
 
 (defn reorder-items [id, item-ids]
   (dotimes [index (count item-ids)]
-    (println "updating index " index " item " (item-ids index))
     (collection/update "lists" {:_id id "items.id" (item-ids index)} {"$set" {"items.$.weight" (inc index)}})))
 
