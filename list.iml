@@ -307,7 +307,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/monger-0.11.0-20111019.122151-9.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/congomongo-0.1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -316,7 +316,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/mongo-java-driver-2.7.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/data.json-0.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -325,7 +325,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/validateur-1.0.0-20111019.122151-2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/mongo-java-driver-2.6.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
