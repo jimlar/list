@@ -3,6 +3,6 @@
             :dependencies [[org.clojure/clojure "1.3.0"]
                            [noir "1.2.2"]
                            [congomongo "0.1.7"]
-                           [clj-oauth "1.2.10"]]
+                           [org.clojars.adamwynne/clj-oauth "1.2.12"]]
   :main list.server)
 

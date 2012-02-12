@@ -1,4 +1,4 @@
-(ns list.views.common
+(ns list.views.layout
   (:use noir.core
         hiccup.core
         hiccup.page-helpers))

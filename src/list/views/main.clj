@@ -1,5 +1,5 @@
 (ns list.views.main
-  (:require [list.views.common :as common]
+  (:require [list.views.layout :as layout]
             [clojure.string :as string]
             [noir.response :as response])
   (:use noir.core
@@ -11,7 +11,7 @@
 
 (defpage listdetails "/lists/:id/" {id :id}
   (let [lst (list-by-id (to-objectid id))]
-    (common/layout
+    (layout/layout
       [:h1 (list-name lst)]
       [:form.add-item {:method :post :action (str "/lists/" id "/")}
         (text-field :name)
@@ -44,7 +44,7 @@
     (response/redirect "/")))
 
 (defpage index "/" []
-  (common/layout
+  (layout/layout
     [:h1 "Listor"]
     [:div#lists
       (for [l (all-lists)]
