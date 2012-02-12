@@ -46,7 +46,7 @@
 
 (defpage index "/" []
   (layout/layout
-    [:h1 "Listor" (login/get-user)]
+    [:h1 "Listor för " (:name (login/get-user))]
     [:div#lists
       (for [l (all-lists)]
         (list

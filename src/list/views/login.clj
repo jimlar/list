@@ -25,12 +25,22 @@
 
 (def profile-url "https://vauth.valtech.se/users/me")
 
+
+(defn- parse-user [response]
+  (if-not (= 200 (:code response))
+    (do
+      (log/warn "could not parse profile response from VAuth:" response)
+      nil)
+    (:content response)))
+
+
 (defn- load-user-info [token secret]
   (log/info "Loading user info")
   (let [credentials (oauth/credentials consumer token secret :GET profile-url)]
-    (http/get profile-url
-              :headers {"Authorization" (oauth/authorization-header credentials)
-                        "Accept"  "*/*"})))
+    (parse-user (http/get profile-url
+                  :headers {"Authorization" (oauth/authorization-header credentials)
+                            "Accept"  "*/*"}
+                  :as :json))))
 
 (defn- start-oauth-flow []
   (log/info "Starting OAuth flow")
