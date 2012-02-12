@@ -1,13 +1,17 @@
 (ns list.views.main
   (:require [list.views.layout :as layout]
             [clojure.string :as string]
-            [noir.response :as response])
+            [noir.response :as response]
+            [list.views.login :as login])
   (:use noir.core
         hiccup.core
         hiccup.page-helpers
         hiccup.form-helpers
         list.models.lists))
 
+(pre-route "/*" {}
+  (if-not (login/logged-in?)
+    (login/request-login)))
 
 (defpage listdetails "/lists/:id/" {id :id}
   (let [lst (list-by-id (to-objectid id))]

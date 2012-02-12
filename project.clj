@@ -4,5 +4,6 @@
                            [noir "1.2.2"]
                            [congomongo "0.1.7"]
                            [org.clojars.adamwynne/clj-oauth "1.2.12"]]
-  :main list.server)
+            :jvm-opts ["-Djavax.net.ssl.trustStore=truststore.jks" "-Djavax.net.ssl.trustStorePassword=s3cr3t"]
+            :main list.server)
 
