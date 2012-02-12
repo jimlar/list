@@ -1,5 +1,6 @@
 (ns list.views.main
   (:require [list.views.layout :as layout]
+            [list.views.login :as login]
             [clojure.string :as string]
             [noir.response :as response]
             [list.views.login :as login])
@@ -45,7 +46,7 @@
 
 (defpage index "/" []
   (layout/layout
-    [:h1 "Listor"]
+    [:h1 "Listor" (login/get-user)]
     [:div#lists
       (for [l (all-lists)]
         (list
