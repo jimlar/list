@@ -8,10 +8,10 @@
   (:use noir.core))
 
 (defn get-user []
-  (session/get :username))
+  (session/get :user))
 
-(defn- set-user! [username]
-  (session/put! :username username))
+(defn- set-user! [user]
+  (session/put! :user user))
 
 (defn- logged-in? []
   (not (nil? (get-user))))
@@ -55,7 +55,8 @@
     (session/remove! :request-token)
     (log/info "Processing callback, token:" token " verifier:" verifier)
     (let [access-token-response (oauth/access-token consumer token verifier)]
-      (set-user! (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response))))))
+      (set-user! (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response)))
+      (response/redirect "/"))))
 
 (defn- oauth-flow-started? []
   (not (nil? (session/get :request-token))))
