@@ -29,7 +29,8 @@
   (log/info "Loading user info")
   (let [credentials (oauth/credentials consumer token secret :GET profile-url)]
     (http/get profile-url
-              :headers {"Authorization" (oauth/authorization-header credentials)})))
+              :headers {"Authorization" (oauth/authorization-header credentials)
+                        "Accept"  "*/*"})))
 
 (defn- start-oauth-flow []
   (log/info "Starting OAuth flow")
