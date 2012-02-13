@@ -41,10 +41,14 @@
                             "Accept"  "*/*"}
                   :as :json))))
 
+(defn- callback-url []
+  (let [r (request/ring-request)]
+    (str (name (:scheme r)) "://" (get (:headers r) "host") "/")))
+
 (defn- start-oauth-flow []
-  (log/info "Starting OAuth flow")
+  (log/info "Starting OAuth flow, callback ul" (callback-url))
   (session/remove! :request-token)
-  (let [request-token (oauth/request-token consumer "http://localhost:8080/")]
+  (let [request-token (oauth/request-token consumer (callback-url))]
     (log/info "Got request token " request-token ", redirecting")
     (session/put! :request-token request-token)
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))
@@ -60,7 +64,7 @@
 (defn- oauth-flow-started? []
   (not (nil? (session/get :request-token))))
 
-(pre-route "/" {}
+(pre-route "/*" {}
   (if-not (logged-in?)
     (if-not (oauth-flow-started?)
       (start-oauth-flow)
