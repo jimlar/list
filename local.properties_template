@@ -1,0 +1,6 @@
+
+# Get this from VAuth (the OAuth provider)
+
+oauth-consumer-key=...
+oauth-consumer-secret=...
+

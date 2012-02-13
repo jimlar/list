@@ -4,7 +4,8 @@
             [noir.response :as response]
             [noir.session :as session]
             [noir.request :as request]
-            [com.twinql.clojure.http :as http])
+            [com.twinql.clojure.http :as http]
+            [list.config :as config])
   (:use noir.core))
 
 (defn get-user []
@@ -16,15 +17,14 @@
 (defn- logged-in? []
   (not (nil? (get-user))))
 
-(def consumer (oauth/make-consumer "Il97ggeg5XrBL8njn4WKNgw4nQyPXXzzyf7inJ3p"
-                "y3VEDAizTBJnHxG6bnFfHKh0LRURFjMrjFzTHK1D"
+(def profile-url "https://vauth.valtech.se/users/me")
+
+(def consumer (oauth/make-consumer (config/value :oauth-consumer-key)
+                (config/value :oauth-consumer-secret)
                 "https://vauth.valtech.se/oauth/request_token"
                 "https://vauth.valtech.se/oauth/access_token"
                 "https://vauth.valtech.se/oauth/authorize"
                 :hmac-sha1))
-
-(def profile-url "https://vauth.valtech.se/users/me")
-
 
 (defn- parse-user [response]
   (if-not (= 200 (:code response))
@@ -32,7 +32,6 @@
       (log/warn "could not parse profile response from VAuth:" response)
       nil)
     (:content response)))
-
 
 (defn- load-user-info [token secret]
   (log/info "Loading user info")
@@ -45,7 +44,7 @@
 (defn- start-oauth-flow []
   (log/info "Starting OAuth flow")
   (session/remove! :request-token)
-  (let [request-token (oauth/request-token consumer "http://fierce-leaf-7626.herokuapp.com/")]
+  (let [request-token (oauth/request-token consumer "http://localhost:8080/")]
     (log/info "Got request token " request-token ", redirecting")
     (session/put! :request-token request-token)
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))

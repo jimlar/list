@@ -2,3 +2,4 @@ pom.xml
 /classes/
 .lein-deps-sum
 list.iws
+local.properties
