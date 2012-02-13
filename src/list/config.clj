@@ -15,7 +15,7 @@
       (load-props "local.properties")
       {})))
 
-; Search for config in local.properties or system env
+; Search for config in local.properties or system env (heroku)
 (defn value [key]
   (let [value (get local-properties key (get (System/getenv) (name key)))]
     (log/info "returning" value "for" key "local properties:" local-properties )
