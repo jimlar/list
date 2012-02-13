@@ -45,7 +45,7 @@
 (defn- start-oauth-flow []
   (log/info "Starting OAuth flow")
   (session/remove! :request-token)
-  (let [request-token (oauth/request-token consumer "http://localhost:8080/")]
+  (let [request-token (oauth/request-token consumer "http://vivid-summer-9536.herokuapp.com/")]
     (log/info "Got request token " request-token ", redirecting")
     (session/put! :request-token request-token)
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))
