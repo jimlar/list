@@ -4,7 +4,7 @@
 (server/load-views "src/list/models/")
 (server/load-views "src/list/views/")
 
-(defn -main [port]
+(defn -main [port & m]
   (let [mode (keyword (or (first m) :dev))
         port (Integer. port)]
     (server/start port {:mode mode
