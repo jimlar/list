@@ -3,3 +3,4 @@ pom.xml
 .lein-deps-sum
 list.iws
 local.properties
+lib
