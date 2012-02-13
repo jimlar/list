@@ -4,9 +4,8 @@
 (server/load-views "src/list/models/")
 (server/load-views "src/list/views/")
 
-(defn -main [& m]
+(defn -main [port]
   (let [mode (keyword (or (first m) :dev))
-        port (Integer. (get (System/getenv) "PORT" "8080"))]
+        port (Integer. port)]
     (server/start port {:mode mode
                         :ns 'list})))
-
