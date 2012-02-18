@@ -1,6 +1,5 @@
 (ns list.config
-  (:require [clojure.java.io :as javaio]
-            [clojure.tools.logging :as log]))
+  (:require [clojure.java.io :as javaio]))
 
 (defn- load-props [file]
   (with-open [^java.io.Reader reader (javaio/reader file)]
@@ -15,11 +14,9 @@
       (load-props "local.properties")
       {})))
 
-; Search for config in local.properties or system env (heroku)
+; Search for config in local.properties fallback to system env (i.e heroku)
 (defn value [key]
-  (let [value (get local-properties key (get (System/getenv) (name key)))]
-    (log/info "returning" value "for" key "local properties:" local-properties )
-    value))
+  (get local-properties key (get (System/getenv) (name key))))
 
 (defn int-value [key]
   (Integer. (value key)))
