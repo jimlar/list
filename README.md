@@ -15,6 +15,7 @@ Make sure the properties in local.properties_template are set in heroku
 
 ``` bash
 git push heroku master
+```
 
 ## License
 
