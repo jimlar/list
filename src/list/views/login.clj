@@ -8,14 +8,16 @@
             [list.config :as config])
   (:use noir.core))
 
+(defrecord User [email name given-name family-name])
+
 (defn get-user []
   (session/get :user))
 
+(defn logged-in? []
+  (not (nil? (get-user))))
+
 (defn- set-user! [user]
   (session/put! :user user))
-
-(defn- logged-in? []
-  (not (nil? (get-user))))
 
 (def profile-url "https://vauth.valtech.se/users/me")
 
@@ -57,8 +59,9 @@
   (let [token (session/get :request-token)]
     (session/remove! :request-token)
     (log/info "Processing callback, token:" token " verifier:" verifier)
-    (let [access-token-response (oauth/access-token consumer token verifier)]
-      (set-user! (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response)))
+    (let [access-token-response (oauth/access-token consumer token verifier)
+          user-data (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response))]
+      (set-user! (User. (:email user-data) (:name user-data) (:given-name user-data) (:family-name user-data)))
       (response/redirect "/"))))
 
 (defn- oauth-flow-started? []
