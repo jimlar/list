@@ -37,7 +37,7 @@
     (:content response)))
 
 (defn- load-user-info [token secret]
-  (log/info "Loading user info")
+  (log/debug "Loading user info")
   (let [credentials (oauth/credentials consumer token secret :GET profile-url)]
     (parse-user (http/get profile-url
                   :headers {"Authorization" (oauth/authorization-header credentials)
@@ -49,17 +49,17 @@
     (str (name (:scheme r)) "://" (get (:headers r) "host") "/")))
 
 (defn- start-oauth-flow []
-  (log/info "Starting OAuth flow, callback ul" (callback-url))
+  (log/debug "Starting OAuth flow, callback ul" (callback-url))
   (session/remove! :request-token)
   (let [request-token (oauth/request-token consumer (callback-url))]
-    (log/info "Got request token " request-token ", redirecting")
+    (log/debug "Got request token " request-token ", redirecting")
     (session/put! :request-token request-token)
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))
 
 (defn- process-oauth-callback [verifier]
   (let [token (session/get :request-token)]
     (session/remove! :request-token)
-    (log/info "Processing callback, token:" token " verifier:" verifier)
+    (log/debug "Processing callback, token:" token " verifier:" verifier)
     (let [access-token-response (oauth/access-token consumer token verifier)
           user-data (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response))]
       (set-user! (User. (:email user-data) (:name user-data) (:given-name user-data) (:family-name user-data)))
