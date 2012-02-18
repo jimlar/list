@@ -17,6 +17,7 @@
   (not (nil? (get-user))))
 
 (defn- set-user! [user]
+  (assert (instance? User user))
   (session/put! :user user))
 
 (def profile-url "https://vauth.valtech.se/users/me")
