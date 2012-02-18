@@ -4,3 +4,7 @@
 oauth-consumer-key=...
 oauth-consumer-secret=...
 
+mongodb-host=localhost
+mongodb-port=27017
+mongodb-user=
+mongodb-password=

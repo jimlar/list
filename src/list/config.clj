@@ -20,3 +20,6 @@
   (let [value (get local-properties key (get (System/getenv) (name key)))]
     (log/info "returning" value "for" key "local properties:" local-properties )
     value))
+
+(defn int-value [key]
+  (Integer. (value key)))
