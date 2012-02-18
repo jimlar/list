@@ -26,22 +26,22 @@
 
 (defpage new-item [:post "/lists/:id/"] {id :id, name :name}
   (do
-    (add-item (to-objectid id) name)
+    (add-item (login/get-user) (to-objectid id) name)
     (response/redirect (url-for listdetails {:id id}))))
 
 (defpage delete-item [:post "/lists/:listid/:itemid"] {listid :listid, itemid :itemid}
   (do
-    (remove-item (to-objectid listid) (to-objectid itemid))
+    (remove-item (login/get-user) (to-objectid listid) (to-objectid itemid))
     (response/redirect (url-for listdetails {:id listid}))))
 
 (defpage items [:post "/lists/:id/items/order"] {id :id, order :order}
   (do
-    (reorder-items (to-objectid id) (vec (map to-objectid (string/split order #","))))
+    (reorder-items (login/get-user) (to-objectid id) (vec (map to-objectid (string/split order #","))))
     "OK"))
 
 (defpage new-list [:post "/"] {name :name, description :description}
   (do
-    (add-list name description)
+    (add-list (login/get-user) name description)
     (response/redirect "/")))
 
 (defpage index "/" []

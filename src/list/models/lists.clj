@@ -1,8 +1,9 @@
 (ns list.models.lists
-  (:import  [org.bson.types ObjectId])
-  (:require [list.config :as config])
+  (:require [list.config :as config]
+            [list.models.user])
+  (:import  [org.bson.types ObjectId]
+            [list.models.user User])
   (:use somnium.congomongo))
-
 
 ; The actual MongoDB connection
 (def list-db (make-connection
@@ -33,20 +34,24 @@
   (with-mongo list-db
     (fetch-by-id :lists id)))
 
-(defn add-list [name, description]
+(defn add-list [user name, description]
+  (assert (instance? User user))
   (with-mongo list-db
     (insert! :lists {:name name, :description description, :items []})))
 
-(defn add-item [id, name]
+(defn add-item [user id, name]
+  (assert (instance? User user))
   (with-mongo list-db
     (let [list (list-by-id id)]
       (update! :lists {:_id id} {"$push" {:items {:id (ObjectId.) :name name :weight (inc (count (list-items list)))}}}))))
 
-(defn remove-item [listid, itemid]
+(defn remove-item [user listid, itemid]
+  (assert (instance? User user))
   (with-mongo list-db
     (update! :lists {:_id listid "items.id" itemid} {"$set" {"items.$.deleted" true}})))
 
-(defn reorder-items [id, item-ids]
+(defn reorder-items [user id, item-ids]
+  (assert (instance? User user))
   (with-mongo list-db
     (dotimes [index (count item-ids)]
       (update! :lists {:_id id "items.id" (item-ids index)} {"$set" {"items.$.weight" (inc index)}}))))
