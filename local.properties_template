@@ -6,5 +6,6 @@ oauth-consumer-secret=...
 
 mongodb-host=localhost
 mongodb-port=27017
+mongodb-db=list
 mongodb-user=
 mongodb-password=

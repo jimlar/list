@@ -5,7 +5,7 @@
 
 
 ; The actual MongoDB connection
-(def list-db (make-connection "list" {:host (config/value :mongodb-host) :port (config/int-value :mongodb-port)} (mongo-options :auto-connect-retry true)))
+(def list-db (make-connection (config/value :mongodb-db) {:host (config/value :mongodb-host) :port (config/int-value :mongodb-port)} (mongo-options :auto-connect-retry true)))
 (authenticate list-db (config/value :mongodb-user) (config/value :mongodb-password))
 
 (defn to-objectid [str] (ObjectId. str))
