@@ -44,16 +44,17 @@
                             "Accept"  "*/*"}
                   :as :json))))
 
-(defn- callback-url []
+(defn- request-url []
   (let [r (request/ring-request)]
-    (str (name (:scheme r)) "://" (get (:headers r) "host") "/")))
+    (str (name (:scheme r)) "://" (get (:headers r) "host") (:uri r))))
 
 (defn- start-oauth-flow []
-  (log/debug "Starting OAuth flow, callback ul" (callback-url))
+  (log/debug "Starting OAuth flow, callback url" (request-url))
   (session/remove! :request-token)
-  (let [request-token (oauth/request-token consumer (callback-url))]
+  (let [request-token (oauth/request-token consumer (request-url))]
     (log/debug "Got request token " request-token ", redirecting")
     (session/put! :request-token request-token)
+    (session/put! :request-url (request-url))
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))
 
 (defn- process-oauth-callback [verifier]
@@ -61,9 +62,11 @@
     (session/remove! :request-token)
     (log/debug "Processing callback, token:" token " verifier:" verifier)
     (let [access-token-response (oauth/access-token consumer token verifier)
-          user-data (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response))]
+          user-data (load-user-info (:oauth_token access-token-response) (:oauth_token_secret access-token-response))
+          original-url (session/get :request-url)]
       (set-user! (User. (:email user-data) (:name user-data) (:given-name user-data) (:family-name user-data)))
-      (response/redirect "/"))))
+      (session/remove! :request-url)
+      (response/redirect original-url))))
 
 (defn- oauth-flow-started? []
   (not (nil? (session/get :request-token))))
