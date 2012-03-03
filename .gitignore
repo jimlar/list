@@ -4,3 +4,4 @@ pom.xml
 list.iws
 local.properties
 lib
+load-test-users.csv
