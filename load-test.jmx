@@ -80,7 +80,7 @@
           <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="authenticity_token" enabled="true">
             <stringProp name="XPathExtractor.default"></stringProp>
             <stringProp name="XPathExtractor.refname">authenticity_token</stringProp>
-            <stringProp name="XPathExtractor.xpathQuery">//input[name=&quot;authenticity_token&quot;]/@value</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//input[@name=&apos;authenticity_token&apos;]/@value</stringProp>
             <boolProp name="XPathExtractor.validate">false</boolProp>
             <boolProp name="XPathExtractor.tolerant">false</boolProp>
             <boolProp name="XPathExtractor.namespace">false</boolProp>
@@ -118,13 +118,20 @@
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">commit</stringProp>
               </elementProp>
+              <elementProp name="user[remember_me]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">user[remember_me]</stringProp>
+              </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.domain">vauth.valtech.se</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path">/users/sign_in</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
