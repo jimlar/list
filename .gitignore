@@ -1,5 +1,5 @@
 pom.xml
-/classes/
+/target/
 .lein-deps-sum
 list.iws
 local.properties

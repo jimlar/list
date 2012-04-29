@@ -2,6 +2,9 @@
 
 TODO-List with drag and drop reordering
 
+## Todo
+* Fix issues with OAuth and lein2
+
 ## Usage
 
 ```bash
