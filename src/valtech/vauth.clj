@@ -20,9 +20,9 @@
   (assert (instance? User user))
   (session/put! :user user))
 
-(def profile-url "https://vauth.valtech.se/users/me")
+(def ^:private profile-url "https://vauth.valtech.se/users/me")
 
-(def consumer (oauth/make-consumer (config/value :oauth-consumer-key)
+(def ^:private consumer (oauth/make-consumer (config/value :oauth-consumer-key)
                 (config/value :oauth-consumer-secret)
                 "https://vauth.valtech.se/oauth/request_token"
                 "https://vauth.valtech.se/oauth/access_token"
