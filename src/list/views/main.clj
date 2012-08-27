@@ -9,6 +9,8 @@
         hiccup.form-helpers
         list.models.lists))
 
+(login/protect "/*")
+
 (defpage listdetails "/lists/:id/" {id :id}
   (let [lst (list-by-id (to-objectid id))]
     (layout/layout

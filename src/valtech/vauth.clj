@@ -48,7 +48,7 @@
   (let [r (request/ring-request)]
     (str (name (:scheme r)) "://" (get (:headers r) "host") (:uri r))))
 
-(defn- start-oauth-flow []
+(defn start-oauth-flow []
   (log/debug "Starting OAuth flow, callback url" (request-url))
   (session/remove! :request-token)
   (let [request-token (oauth/request-token consumer (request-url))]
@@ -57,7 +57,7 @@
     (session/put! :request-url (request-url))
     (response/redirect (oauth/user-approval-uri consumer (:oauth_token request-token)))))
 
-(defn- process-oauth-callback [verifier]
+(defn process-oauth-callback [verifier]
   (let [token (session/get :request-token)]
     (session/remove! :request-token)
     (log/debug "Processing callback, token:" token " verifier:" verifier)
@@ -68,11 +68,13 @@
       (session/remove! :request-url)
       (response/redirect original-url))))
 
-(defn- oauth-flow-started? []
+(defn oauth-flow-started? []
   (not (nil? (session/get :request-token))))
 
-(pre-route "/*" {}
-  (if-not (logged-in?)
-    (if-not (oauth-flow-started?)
-      (start-oauth-flow)
-      (process-oauth-callback (get (:query-params (request/ring-request)) "oauth_verifier")))))
+
+(defmacro protect [url]
+  `(pre-route ~url {}
+    (if-not (logged-in?)
+      (if-not (oauth-flow-started?)
+        (start-oauth-flow)
+        (process-oauth-callback (get (:query-params (request/ring-request)) "oauth_verifier"))))))
