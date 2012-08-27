@@ -1,9 +1,8 @@
 (ns list.views.main
   (:require [list.views.layout :as layout]
-            [list.views.login :as login]
+            [valtech.vauth :as login]
             [clojure.string :as string]
-            [noir.response :as response]
-            [list.views.login :as login])
+            [noir.response :as response])
   (:use noir.core
         hiccup.core
         hiccup.page-helpers

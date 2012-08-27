@@ -1,14 +1,14 @@
-(ns list.views.login
+(ns valtech.vauth
   (:require [clojure.tools.logging :as log]
             [oauth.client :as oauth]
             [noir.response :as response]
             [noir.session :as session]
             [noir.request :as request]
             [com.twinql.clojure.http :as http]
-            [list.models.user]
             [list.config :as config])
-  (:import [list.models.user User])
   (:use noir.core))
+
+(defrecord User [email name given-name family-name])
 
 (defn get-user []
   (session/get :user))

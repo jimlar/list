@@ -1,8 +1,8 @@
 (ns list.models.lists
   (:require [list.config :as config]
-            [list.models.user])
+            [valtech.vauth])
   (:import  [org.bson.types ObjectId]
-            [list.models.user User])
+            [valtech.vauth User])
   (:use somnium.congomongo))
 
 ; The actual MongoDB connection
