@@ -5,3 +5,5 @@ list.iws
 local.properties
 lib
 load-test-users.csv
+/list.sublime-workspace
+/list.sublime-project
